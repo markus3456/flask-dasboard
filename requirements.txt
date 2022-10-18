@@ -1,0 +1,9 @@
+pandas
+dash
+sqlalchemy
+plotly
+psycopg2
+dash_bootstrap_components
+flask
+flask_sqlalchemy
+flask-wtf
