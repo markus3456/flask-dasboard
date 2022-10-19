@@ -55,9 +55,9 @@ def assetb(df1,df2,df3,df4,start,end):
     df3 = mask(df3,start,end)
     df4 = mask(df4,start,end)
 
-    dft = pd.merge(df1, df2[["date", "balance"]], on="date", how="left")
-    dft = pd.merge(dft, df3[["date", "balance"]], on="date", how="left")
-    dft = pd.merge(dft, df4[["date", "balance"]], on="date", how="left")
+    dft1 = pd.merge(df3, df1[["date", "balance"]], on="date", how="left", suffixes=('_a', '_b'))
+    dft2 = pd.merge(df2, df4[["date", "balance"]], on="date", how="left", suffixes=('_c', '_d'))
+    dft = pd.merge(dft1, dft2[["date",  "balance_c", "balance_d"]], on="date", how="left", )
 
     dft = dft.fillna(method='ffill')
     dft = dft.drop(columns=[ 'text','authority','value','reference'])
