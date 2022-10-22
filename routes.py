@@ -21,6 +21,7 @@ import pandas as pd
 from app import create_app
 from extract import extract
 from calc import mon
+import calc as calc
 
 ptsbm, extra, giro ,ptsbc= extract()
     
@@ -42,7 +43,9 @@ tot = str(tot)
 
 print(tot)
 print(total)
-    
+
+a = calc.net()
+print(a)
 
 app = create_app()
 
@@ -67,8 +70,11 @@ def index():
     form = Form()
     
     #fig2 pie-chart to vizualize allocation of tasks of each category
-    labels = total['acc'].tolist()
-    values = total['balance'].tolist()
+    labels = a['acc'].head(5).tolist()
+    values = a['balance'].head(5).tolist()
+    tot = a.iloc[-1]['balance']
+    tot = tot.round(2)
+
     #print(labels)
     fig2 = go.Figure(data=[go.Pie(labels=labels, values=values, hole=.7)])
     fig2.update_layout(

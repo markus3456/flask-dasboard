@@ -16,8 +16,7 @@ def mon(df,month,year):
     sum1 = round(sum(x for x in df["value"] if x < 0),2)
     count1 = len(df.index)
 
-    print(count1)
-    print(sum1)
+
 
     return df
 
@@ -25,7 +24,7 @@ def mon(df,month,year):
 def dfgen(a):
     dfd = pd.date_range(start='1/1/2022', freq='MS', periods=7)
     dfd = pd.DataFrame(dfd, columns=['date'])
-    print(dfd)
+
     df5 = pd.DataFrame()
     b = 0
     for i in range(0,7,1):
@@ -79,8 +78,7 @@ def assetb(df1,df2,df3,df4,start,end):
     dft = dft.fillna(0)
     dft.set_axis(['date', 'giro', 'ptsbm', 'ptsbc', 'extra'], axis=1, inplace=True)
     
-    #dft['total'] = dft.apply(lambda x: x['giro'] + x['ptsbm'] + x['ptsbc'] + x['extra'], axis=1)
-    #dft.columns = ['date', 'giro', 'ptsbm', 'ptsbc', 'extra','total']
+    
     print(type(dft))
     return dft
 
@@ -90,23 +88,47 @@ def asset2(df1,df2):
     dft = pd.merge(df1, df2[["date",  "balance"]], on="date", how="left", )
     dft = dft.fillna(method='ffill')
     dft = dft.fillna(0)
-    print(dft)
+   
     print(type(dft))
     return dft
 
 def total(df):
     cols = ['giro','ptsbm','ptsbc','extra','balance']
     df['total'] = df[cols].sum(axis=1)
-    print(df)
+    df.set_axis(['date', 'ptsbc', 'giro', 'ptsbm', 'extra','boi','total'], axis=1, inplace=True)
+    return df
 
-df1 = assetb(giro,ptsbm,ptsbc,extra,2021,2022)
+
+def annual(giro,ptsbm,ptsbc,extra,start,end):
+
+    #generate df of transactions (bank of ireland)
+    a = 10000
+    boi = dfgen(a)
+
+    #genarate df of all transactons
+    df1 = assetb(giro,ptsbm,ptsbc,extra,start,end)
+    print(type(df1))
+
+    #add boi
+    df2 = asset2(df1,boi)
+
+    #calculat total balance
+    df2 = total(df2)
+    return df2
 
 
-a = 10000
-boi = dfgen(a)
-print(type(df1))
+def net():
+    start = 2021
+    end = 2022
 
-df3 = asset2(df1,boi)
-print(df3)
-df3 = total(df3)
-print(df3)
+    a = annual(giro,ptsbm,ptsbc,extra,start,end)
+
+    a = a.tail(1)
+    a = a.drop(columns=['date'])
+    a = a.transpose()
+    a = a.reset_index()
+    a = a.set_axis(['acc','balance'], axis=1, inplace=False)
+    print(a)
+    return a
+
+
