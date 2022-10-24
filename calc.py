@@ -22,7 +22,7 @@ def mon(df,month,year):
 
 #generate a dataframe with transactions
 def dfgen(a):
-    dfd = pd.date_range(start='1/1/2022', freq='MS', periods=7)
+    dfd = pd.date_range(start='5/5/2022',end = '8/8/2022', periods=7)
     dfd = pd.DataFrame(dfd, columns=['date'])
 
     df5 = pd.DataFrame()
@@ -131,4 +131,7 @@ def net():
     print(a)
     return a
 
-
+start = 2021
+end = 2022
+b = annual(giro,ptsbm,ptsbc,extra,start,end)
+print(b)

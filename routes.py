@@ -108,7 +108,14 @@ def index():
 
         graphJSON2 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
-        return render_template('index.html', graphJSON=graphJSON,  graphJSON2=graphJSON2,  form=form)
+        #line chart for annual asset-growth
+        start = 2021
+        end = 2022
+        df_y = calc.annual(giro,ptsbm,ptsbc,extra,start,end)
+        fig3 = px.line(df_y, x="date", y="total")
+        graphJSON3 = json.dumps(fig3, cls=plotly.utils.PlotlyJSONEncoder)
+
+        return render_template('index.html', graphJSON=graphJSON,  graphJSON2=graphJSON2, graphJSON3=graphJSON3, form=form)
    
     
 
