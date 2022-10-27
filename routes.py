@@ -112,7 +112,7 @@ def index():
         start = 2021
         end = 2022
         df_y = calc.annual(giro,ptsbm,ptsbc,extra,start,end)
-        fig3 = px.line(df_y, x="date", y="total")
+        fig3 = px.line(df_y, x="date", y="total", title='total balance')
         graphJSON3 = json.dumps(fig3, cls=plotly.utils.PlotlyJSONEncoder)
 
         return render_template('index.html', graphJSON=graphJSON,  graphJSON2=graphJSON2, graphJSON3=graphJSON3, form=form)

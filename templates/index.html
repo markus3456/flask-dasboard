@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container py-4 text-left">
+<div class="container-lg mt-3 border">
 
 
-  
+      <div class="row">
         <div class="col-sm">
           <h2 class="text-center">Allocation</h2>
             <div id='chart2' class='chart2'”></div>
@@ -28,7 +28,7 @@
               Plotly.plot('chart2',graphs,layout,{});
             </script>
           </div>
-
+      </div>      
           <!-- <form action="/month" method="post">
             <div class="row">
             
@@ -42,46 +42,48 @@
               
             </div>
           </form> -->
-          <br>
-            
-          <br>  
-          </form>
-          <form method="POST">
-            <select name="month" class="col-sm-4 input-group mb form-control" type="text" onchange='this.form.submit()'>
-              
-              <option value={{form.month}}></option>
-              
-            </select>
-            
-            
-          </form>
+</div>
+<div class="container-lg mt-3 border">
+         
 
-          <div class="col-sm">
-            <h2 class="text-center">Month</h2>
-              <div id='chart1' class='chart1'”></div>
-  
-              
-              <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-              <script type='text/javascript'>
-                var graphs = {{graphJSON2 | safe}};
-                var layout = {
-                  autosize: false,
-                  width: 100,
-                  height: 500,
-                  margin: {
-                    l: 20,
-                    r: 20,
-                    b: 20,
-                    t: 20,
-                    pad: 4
-                  },
-                }
-                Plotly.plot('chart1',graphs,layout,{});
-              </script>
+          <div class="row">
+            <div class="col-6">
+            
+            <form method="POST">
+              <select name="month" class="col-lg-3 mt-3 input-group mb form-control" type="text" onchange='this.form.submit()'>
+                
+                <option value={{form.month}}></option>
+                
+              </select>
+            </form>
+
+              <!-- <h2 class="text-center">Month</h2> -->
+                <div id='chart1' class='chart1'”></div>
+    
+                
+                <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+                <script type='text/javascript'>
+                  var graphs = {{graphJSON2 | safe}};
+                  var layout = {
+                    autosize: false,
+                    width: 100,
+                    height: 500,
+                    margin: {
+                      l: 20,
+                      r: 20,
+                      b: 20,
+                      t: 20,
+                      pad: 4
+                    },
+                  }
+                  Plotly.plot('chart1',graphs,layout,{});
+                </script>
             </div>
 
-            <div class="col-sm">
-              <h2 class="text-center">Growth of available balance</h2>
+            
+            <div class="col-6">
+              <div class="multi-range-slider"></div>
+              <!-- <h2 class="text-center">Growth of available balance</h2> -->
                 <div id='chart3' class='chart3'”></div>
     
                 
@@ -102,6 +104,7 @@
                   }
                   Plotly.plot('chart3',graphs,layout,{});
                 </script>
-              </div>
-  
+            </div>
+          </div>
+</div>
 {% endblock %}
