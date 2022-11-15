@@ -48,30 +48,38 @@
 
           <div class="row">
             <div class="col-6">
-              <div class="dropdown">
-                <form method="POST">
-                  
-                  <select name="acc" id="acc" class="col-lg-3 mt-3 input-group mb form-control" type="text">
-                
-                    <option value={{form2.acc}} ></option>
-                
-                  </select>
-                  
-                  <select name="month" id="month" class="col-lg-3 mt-3 input-group mb form-control" type="text" onchange='this.form.submit()'>
-                
-                    <option value={{form.month}}></option>
-                
-                  </select>
+              <div class="row mx-2">
+                <div class="col-4 mt-3">
+              
+                  <div class="dropdown">
+                    <form method="POST">
+                      
+                      <select name="acc" id="acc" class="col-lg-12 mt-3 input-group mb form-control" type="text">
+                    
+                        <option value={{form2.acc}} ></option>
+                    
+                      </select>
+                      
+                      <select name="month" id="month" class="col-lg-12 mt-3 input-group mb form-control" type="text" onchange='this.form.submit()'>
+                    
+                        <option value={{form.month}}></option>
+                    
+                      </select>
 
-                </form>
+                    </form>
+                  </div>
+                </div>
+              <div class="col-lg-7 mt-3 border">
+
               </div>
-
+            </div>
+            
              
 
 
              
               <!-- <h2 class="text-center">Month</h2> -->
-                <div id='chart1' class='chart1'”></div>
+            <div id='chart1' class='chart1'”></div>
     
                 
                 <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>

@@ -111,6 +111,12 @@ def index():
         #return '<h1>Month: {}</h1>'.format(form.month.data)
         
         df_m = mon(acc,month,2022)
+        
+        a1 = round(sum(x for x in df_m["value"] if x < 0),2)
+        a2 = len(df_m)
+        #a2 = round(mean(x for x in df_m["value"] if x < 0),2)
+        print(a1)
+        print(a2)
 
         fig = px.bar(df_m, x='date', y='value',
                    hover_data=['value', 'authority'], 
