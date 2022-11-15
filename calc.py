@@ -3,10 +3,17 @@ from extract import extract
 
 ptsbm, extra, giro ,ptsbc = extract()
 
+ACC = { 'ptsbm' : ptsbm,
+        'ptsbc' : ptsbc,
+        'giro' : giro,
+        'extra': extra}
+
 #print(giro)
 
 #filter a dataframe with all transactions of the desired month
-def mon(df,month,year): 
+def mon(acc,month,year): 
+    
+    df = ACC[acc]
 
     mask = df['date'].map(lambda x: x.month) == month   
     b = df[mask]
@@ -56,6 +63,8 @@ def asset(df1, df2, start, end):
 
     print(df3)
     return df3
+
+
 #mask to selcet desired range/time period
 def mask(df,start, end):
     mask2 = (df['date'].dt.year >= start) & (df['date'].dt.year <= end)
@@ -135,3 +144,7 @@ start = 2021
 end = 2022
 b = annual(giro,ptsbm,ptsbc,extra,start,end)
 print(b)
+
+
+#d1 = mon('giro',3,2022)
+#print(d1)

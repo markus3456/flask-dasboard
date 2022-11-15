@@ -63,11 +63,18 @@ class Form(FlaskForm):
                                             (10, 'October'),
                                             (11, 'November'),
                                             (12, 'December'),])
+                                    
+class Form2(FlaskForm):
+    acc = SelectField('acc', choices=[('ptsbm', 'ptsbm'),
+                                        ('ptsbc', 'ptsbc'),
+                                        ('giro', 'giro'),
+                                        ('extra', 'extra'),])
 
 
 @app.route('/', methods=("GET", "POST"), strict_slashes=False)
 def index():
     form = Form()
+    form2 = Form2()
     
     #fig2 pie-chart to vizualize allocation of tasks of each category
     labels = a['acc'].head(5).tolist()
@@ -95,12 +102,15 @@ def index():
 
 
     if request.method == 'POST':
+        acc = form2.acc.data
+        print(type(acc))
+        print(acc)
         month = form.month.data
         month = int(month)
-        print(type(month))
+        #print(type(month))
         #return '<h1>Month: {}</h1>'.format(form.month.data)
         
-        df_m = mon(giro,month,2022)
+        df_m = mon(acc,month,2022)
 
         fig = px.bar(df_m, x='date', y='value',
                    hover_data=['value', 'authority'], 
@@ -115,7 +125,7 @@ def index():
         fig3 = px.line(df_y, x="date", y="total", title='total balance')
         graphJSON3 = json.dumps(fig3, cls=plotly.utils.PlotlyJSONEncoder)
 
-        return render_template('index.html', graphJSON=graphJSON,  graphJSON2=graphJSON2, graphJSON3=graphJSON3, form=form)
+        return render_template('index.html', graphJSON=graphJSON,  graphJSON2=graphJSON2, graphJSON3=graphJSON3, form=form ,form2=form2)
    
     
 
@@ -130,11 +140,17 @@ def index():
 
     graphJSON2 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
+    #ptsbm, extra, giro ,ptsbc
+    acc = [{'acc': 'select acc'},
+            {'acc': 'ptsbm'},
+            {'acc': 'ptsbc'},
+            {'acc': 'giro'},
+            {'acc': 'extra'},]
     
     month = [{'month': 'Select Month'},
             {'month': 'January'},
             {'month': 'Febuary'},
-            {'month':'March'},
+            {'month': 'March'},
             {'month': 'April'},
             {'month': 'May'},
             {'month': 'June'},
@@ -148,7 +164,7 @@ def index():
     
     
 
-    return render_template('index.html',  graphJSON=graphJSON, graphJSON2=graphJSON2, month=month, form=form) 
+    return render_template('index.html',  graphJSON=graphJSON, graphJSON2=graphJSON2, acc=acc, month=month, form=form, form2=form2) 
 
 
 @app.route('/month', methods=["POST"])

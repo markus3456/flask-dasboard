@@ -48,15 +48,28 @@
 
           <div class="row">
             <div class="col-6">
-            
-            <form method="POST">
-              <select name="month" class="col-lg-3 mt-3 input-group mb form-control" type="text" onchange='this.form.submit()'>
+              <div class="dropdown">
+                <form method="POST">
+                  
+                  <select name="acc" id="acc" class="col-lg-3 mt-3 input-group mb form-control" type="text">
                 
-                <option value={{form.month}}></option>
+                    <option value={{form2.acc}} ></option>
                 
-              </select>
-            </form>
+                  </select>
+                  
+                  <select name="month" id="month" class="col-lg-3 mt-3 input-group mb form-control" type="text" onchange='this.form.submit()'>
+                
+                    <option value={{form.month}}></option>
+                
+                  </select>
 
+                </form>
+              </div>
+
+             
+
+
+             
               <!-- <h2 class="text-center">Month</h2> -->
                 <div id='chart1' class='chart1'”></div>
     
