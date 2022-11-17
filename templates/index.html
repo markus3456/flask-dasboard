@@ -69,17 +69,17 @@
                     </form>
                   </div>
                 </div>
-              <div class="col-lg-7 mt-3 border">
-
+                <div class="col-lg-7 mt-3 border">
+                
+                </div>
               </div>
-            </div>
             
              
 
 
              
               <!-- <h2 class="text-center">Month</h2> -->
-            <div id='chart1' class='chart1'”></div>
+              <div id='chart1' class='chart1'”></div>
     
                 
                 <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
@@ -103,9 +103,33 @@
 
             
             <div class="col-6">
-              <div class="multi-range-slider"></div>
+              <div class="row mx-2">
+                <div class="col-4 mt-3">
+              
+                  <div class="dropdown">
+                    <form method="POST">
+                      
+                      <select name="year1" id="year1" class="col-lg-12 mt-3 input-group mb form-control" type="text">
+                    
+                        <option value={{form3.year}} ></option>
+                    
+                      </select>
+                      
+                      <select name="year2" id="year2" class="col-lg-12 mt-3 input-group mb form-control" type="text" onchange='this.form.submit()'>
+                    
+                        <option value={{form3.year}}></option>
+                    
+                      </select>
+
+                    </form>
+                  </div>
+                </div>
+              <div class="col-lg-7 mt-3 border">
+                
+              </div>
+            </div>
               <!-- <h2 class="text-center">Growth of available balance</h2> -->
-                <div id='chart3' class='chart3'”></div>
+            <div id='chart3' class='chart3'”></div>
     
                 
                 <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
@@ -125,7 +149,7 @@
                   }
                   Plotly.plot('chart3',graphs,layout,{});
                 </script>
+              
             </div>
-          </div>
 </div>
 {% endblock %}

@@ -50,7 +50,6 @@ print(a)
 app = create_app()
 
 class Form(FlaskForm):
-    year = SelectField('year', choices=[(2021),(2022)])
     month = SelectField('month',choices=[   (1, 'January'),
                                             (2, 'Febuary'),
                                             (3, 'March'),
@@ -70,11 +69,19 @@ class Form2(FlaskForm):
                                         ('giro', 'giro'),
                                         ('extra', 'extra'),])
 
+class Form3(FlaskForm):
+    year = SelectField('year', choices=[(2021),
+                                        (2022),
+                                        (2023)])
+
 
 @app.route('/', methods=("GET", "POST"), strict_slashes=False)
 def index():
+
+    #import forms for dropdown content
     form = Form()
     form2 = Form2()
+    form3 = Form3()
     
     #fig2 pie-chart to vizualize allocation of tasks of each category
     labels = a['acc'].head(5).tolist()
@@ -102,33 +109,40 @@ def index():
 
 
     if request.method == 'POST':
-        acc = form2.acc.data
-        print(type(acc))
-        print(acc)
-        month = form.month.data
-        month = int(month)
-        #print(type(month))
-        #return '<h1>Month: {}</h1>'.format(form.month.data)
         
+        #get data for monthly dropdowns
+        acc = form2.acc.data                #will return string
+        month = form.month.data             
+        month = int(month)                  #convert to int
+        
+        #query account and month, create new dataframe 
         df_m = mon(acc,month,2022)
         
+        #calculate sum of expenditures and amount of transactions
         a1 = round(sum(x for x in df_m["value"] if x < 0),2)
         a2 = len(df_m)
-        #a2 = round(mean(x for x in df_m["value"] if x < 0),2)
         print(a1)
         print(a2)
 
+        #plot expenditure in bar-chart
         fig = px.bar(df_m, x='date', y='value',
                    hover_data=['value', 'authority'], 
                 labels={'value':'value'})
 
         graphJSON2 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
-        #line chart for annual asset-growth
+
+        year = form3.year.data
+        year = int(year)
+        print(year)
+
+
+
+        #plot line chart for annual asset-growth
         start = 2021
         end = 2022
         df_y = calc.annual(giro,ptsbm,ptsbc,extra,start,end)
-        fig3 = px.line(df_y, x="date", y="total", title='total balance')
+        fig3 = px.line(df_y, x="date", y="total")
         graphJSON3 = json.dumps(fig3, cls=plotly.utils.PlotlyJSONEncoder)
 
         return render_template('index.html', graphJSON=graphJSON,  graphJSON2=graphJSON2, graphJSON3=graphJSON3, form=form ,form2=form2)
@@ -137,7 +151,7 @@ def index():
 
     
 
-    #Bar Plot Month
+    #Bar Plot Month empty
     df_i = pd.DataFrame(columns=['date','value'])
 
     fig = px.bar(df_i, x='date', y='value',
@@ -145,6 +159,10 @@ def index():
                 labels={'value':'value'})
 
     graphJSON2 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
+    df_ii = pd.DataFrame(columns=['date','total'])
+    fig3 = px.line(df_ii, x="date", y="total")
+    graphJSON3 = json.dumps(fig3, cls=plotly.utils.PlotlyJSONEncoder)
 
     #ptsbm, extra, giro ,ptsbc
     acc = [{'acc': 'select acc'},
@@ -170,7 +188,8 @@ def index():
     
     
 
-    return render_template('index.html',  graphJSON=graphJSON, graphJSON2=graphJSON2, acc=acc, month=month, form=form, form2=form2) 
+    return render_template('index.html',  graphJSON=graphJSON, graphJSON2=graphJSON2, graphJSON3=graphJSON3, 
+                            acc=acc, month=month, form=form, form2=form2, form3=form3) 
 
 
 @app.route('/month', methods=["POST"])
