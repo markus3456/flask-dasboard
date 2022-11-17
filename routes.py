@@ -108,8 +108,8 @@ def index():
 
 
 
-    if request.method == 'POST':
-        
+    if request.method == 'POST' and form2.acc.data is not None:
+
         #get data for monthly dropdowns
         acc = form2.acc.data                #will return string
         month = form.month.data             
@@ -130,12 +130,15 @@ def index():
                 labels={'value':'value'})
 
         graphJSON2 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+        print('POST form2')
+        return render_template('index.html', graphJSON=graphJSON,  graphJSON2=graphJSON2,   form=form ,form2=form2, form3=form3)
 
-
+    if request.method == 'POST' and form3.year.data is not None:
+        
+        #get data anaual dropdowns
         year = form3.year.data
         year = int(year)
         print(year)
-
 
 
         #plot line chart for annual asset-growth
@@ -144,8 +147,8 @@ def index():
         df_y = calc.annual(giro,ptsbm,ptsbc,extra,start,end)
         fig3 = px.line(df_y, x="date", y="total")
         graphJSON3 = json.dumps(fig3, cls=plotly.utils.PlotlyJSONEncoder)
-
-        return render_template('index.html', graphJSON=graphJSON,  graphJSON2=graphJSON2, graphJSON3=graphJSON3, form=form ,form2=form2)
+        print('POST form3')
+        return render_template('index.html', graphJSON=graphJSON,  graphJSON3=graphJSON3, form=form ,form2=form2, form3=form3)
    
     
 
@@ -187,7 +190,7 @@ def index():
     
     
     
-
+    print('POST default')
     return render_template('index.html',  graphJSON=graphJSON, graphJSON2=graphJSON2, graphJSON3=graphJSON3, 
                             acc=acc, month=month, form=form, form2=form2, form3=form3) 
 
